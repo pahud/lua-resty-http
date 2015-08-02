@@ -767,6 +767,15 @@ function _M.proxy_request(self, chunksize)
     }
 end
 
+function _M.proxy_request2(self, chunksize)
+    return self:request{
+        method = ngx_req_get_method(),
+        path = ngx_var.uri .. ngx_var.is_args .. (ngx_var.query_string or ""),
+	body = ngx.req.get_body_data(),
+        headers = ngx_req_get_headers(),
+    }
+end
+
 
 function _M.proxy_response(self, response, chunksize)
     if not response then
